@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lawyers_list/core/constants.dart';
 import 'package:lawyers_list/model/sign_in/sign_in_req.dart';
 import 'package:lawyers_list/services/all_services.dart';
-import 'package:lawyers_list/views/home/home_page.dart';
+import 'package:lawyers_list/views/bottom_navigation/bottom_nav_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInProvider with ChangeNotifier {
@@ -23,7 +23,7 @@ class SignInProvider with ChangeNotifier {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => HomeScreen(),
+              builder: (context) => BottomNavScreen(),
             ));
       }
     });

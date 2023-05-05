@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lawyers_list/core/constants.dart';
 import 'package:lawyers_list/views/auth/login/views/login_page.dart';
-import 'package:lawyers_list/views/home/home_page.dart';
+import 'package:lawyers_list/views/bottom_navigation/bottom_nav_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreenProvider with ChangeNotifier {
@@ -18,7 +18,7 @@ class SplashScreenProvider with ChangeNotifier {
             ? Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => HomeScreen(),
+                  builder: (context) => BottomNavScreen(),
                 ))
             : Navigator.pushReplacement(
                 context,

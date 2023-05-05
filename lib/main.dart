@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lawyers_list/controller/bottom_nav_controller.dart';
 import 'package:lawyers_list/controller/sign_in_provider.dart';
 import 'package:lawyers_list/controller/splash_screen_provider.dart';
 import 'package:lawyers_list/views/splash_screen/splash_screen.dart';
@@ -17,6 +18,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => SplashScreenProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => BottomNavController(),
         ),
         ChangeNotifierProvider(
           create: (context) => SignInProvider(),

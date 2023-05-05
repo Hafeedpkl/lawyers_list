@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:lawyers_list/core/constants.dart';
-import 'package:lawyers_list/views/auth/login/views/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({
-    super.key,
-  });
+import '../../core/constants.dart';
+import '../auth/login/views/login_page.dart';
+
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +16,7 @@ class HomeScreen extends StatelessWidget {
               onPressed: () async {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 await prefs.remove(AUTH_TOKEN);
-                // ignore: use_build_context_synchronously
+                // SystemNavigator.pop();
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
@@ -29,18 +28,7 @@ class HomeScreen extends StatelessWidget {
         title: Text('hello'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              'hello',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
+        child: Text('Profile'),
       ),
     );
   }
