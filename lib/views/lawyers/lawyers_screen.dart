@@ -17,27 +17,30 @@ class LawyersScreen extends StatelessWidget {
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : ListView.builder(
-              itemBuilder: (context, index) {
-                return Card(
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      radius: 25,
-                      backgroundImage:
-                          Image.network(value.lawersList![index].profilPicture!)
-                              .image,
+          : SafeArea(
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        radius: 25,
+                        backgroundImage: Image.network(
+                                value.lawersList![index].profilPicture!)
+                            .image,
+                      ),
+                      title: Text(value.lawersList![index].name == ''
+                          ? 'user'
+                          : value.lawersList![index].name!),
+                      subtitle: tileSubTitle(
+                          value.lawersList![index].fieldOfExpertise!),
+                      trailing: tileTrailing(
+                          size: size,
+                          rating: value.lawersList![index].ranking!),
                     ),
-                    title: Text(value.lawersList![index].name == ''
-                        ? 'user'
-                        : value.lawersList![index].name!),
-                    subtitle: tileSubTitle(
-                        value.lawersList![index].fieldOfExpertise!),
-                    trailing: tileTrailing(
-                        size: size, rating: value.lawersList![index].ranking!),
-                  ),
-                );
-              },
-              itemCount: value.lawersList!.length,
+                  );
+                },
+                itemCount: value.lawersList!.length,
+              ),
             );
     }));
   }
