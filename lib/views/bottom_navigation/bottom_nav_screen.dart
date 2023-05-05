@@ -17,6 +17,7 @@ class BottomNavScreen extends StatelessWidget {
     return Consumer<BottomNavController>(builder: (context, controller, _) {
       return Scaffold(
           bottomNavigationBar: BottomNavigationBar(
+              selectedItemColor: Colors.black,
               currentIndex: controller.currentIndex,
               onTap: (value) {
                 controller.bottomChanger(value);
