@@ -4,6 +4,7 @@ import 'package:lawyers_list/controller/lawers_controller.dart';
 import 'package:lawyers_list/controller/map_controller.dart';
 import 'package:lawyers_list/controller/sign_in_provider.dart';
 import 'package:lawyers_list/controller/splash_screen_provider.dart';
+import 'package:lawyers_list/controller/upload_controller.dart';
 import 'package:lawyers_list/views/splash_screen/splash_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -32,6 +33,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => MapController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => UploadController(),
         ),
       ],
       child: MaterialApp(
