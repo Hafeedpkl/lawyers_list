@@ -23,17 +23,7 @@ class BottomNavScreen extends StatelessWidget {
           appBar: AppBar(
             actions: [
               IconButton(
-                  onPressed: () async {
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    await prefs.remove(AUTH_TOKEN);
-                    // SystemNavigator.pop();
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => LoginScreen(),
-                        ));
-                  },
+                  onPressed: () => logOut(context),
                   icon: const Icon(Icons.exit_to_app))
             ],
           ),
@@ -53,5 +43,36 @@ class BottomNavScreen extends StatelessWidget {
           body: pages[Provider.of<BottomNavController>(context, listen: false)
               .currentIndex]);
     });
+  }
+//this is method is for logout the user from device
+  logOut(context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('logout?'),
+        content: const Text('Are you want to Log Out?'),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('No'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              await prefs.remove(AUTH_TOKEN);
+              // SystemNavigator.pop();
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginScreen(),
+                  ));
+            },
+            child: const Text('Yes'),
+          ),
+        ],
+      ),
+    );
   }
 }

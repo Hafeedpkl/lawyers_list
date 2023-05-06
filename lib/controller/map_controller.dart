@@ -7,18 +7,18 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class MapController with ChangeNotifier {
   String kaddress = "your location";
   GoogleMapController? mapController;
-  LatLng kMapCenter = LatLng(37.42796133580664, -122.085749655962);
-  CameraPosition kInitialPosition = CameraPosition(
+  LatLng kMapCenter = const LatLng(37.42796133580664, -122.085749655962);
+  CameraPosition kInitialPosition = const CameraPosition(
       target: LatLng(37.42796133580664, -122.085749655962),
       zoom: 11,
       tilt: 0,
       bearing: 0);
-
+// this for saving current controller into that variable at onMapCreated
   setMapController(GoogleMapController controller) {
     mapController = controller;
     notifyListeners();
   }
-
+// this is the method for search address in location
   Future<void> searchLocation(String address) async {
     kaddress = address;
     notifyListeners();
