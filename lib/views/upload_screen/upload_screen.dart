@@ -29,24 +29,34 @@ class _UploadScreenState extends State<UploadScreen> {
     return Scaffold(
         backgroundColor: Colors.blueGrey[100],
         body: SafeArea(
-          child: ListView(
+          child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  mediaCard(size, 'Camera', Colors.blueAccent,
-                      Icons.camera_alt_outlined, captureImage),
-                  mediaCard(size, 'Scan', Colors.purpleAccent, Icons.image,
-                      scanUploadDirectory),
-                ],
+              Expanded(
+                flex: 1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    mediaCard(size, 'Camera', Colors.blueAccent,
+                        Icons.camera_alt_outlined, captureImage),
+                    mediaCard(size, 'Scan', Colors.purpleAccent, Icons.image,
+                        scanUploadDirectory),
+                  ],
+                ),
               ),
-              Column(
-                  children: uploadedImageList.map((file) {
-                return Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Image.file(file),
-                );
-              }).toList())
+              Expanded(
+                  flex: 2,
+                  child: uploadedImageList.isEmpty
+                      ? SizedBox()
+                      : GridView.builder(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3),
+                          itemBuilder: (context, index) => Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.file(uploadedImageList[index])),
+                          itemCount: uploadedImageList.length,
+                        ))
+              
             ],
           ),
         ));
@@ -89,25 +99,27 @@ class _UploadScreenState extends State<UploadScreen> {
     final picker = ImagePicker();
     final imageFile = await picker.pickImage(source: ImageSource.camera);
     if (imageFile == null) return;
-    final directory = await getApplicationDocumentsDirectory();
-    final filename = DateTime.now().millisecondsSinceEpoch.toString();
-    final imagePath = '${directory.path}/uploads/$filename.jpg';
     final image = File(imageFile.path);
+
+    log(image.toString());
+
     // var baseNameWithExtension = path.basename(imageFile.path);
     // var file = await moveFile(image, imagePath);
-    // final File savedImage = await image.copy(imagePath);
+    final imageFilePath = await getImageFilePath();
+    final newImageFile = File(imageFilePath);
+    final File savedImage = await image.copy(newImageFile.path);
     setState(() {
       uploadedImageList.add(image);
     });
   }
 
-  Future<File> moveFile(File sourcFile, String newPath) async {
-    try {
-      return await sourcFile.rename(newPath);
-    } catch (e) {
-      final newFile = await sourcFile.copy(newPath);
-      return newFile;
-    }
+  Future<String> getImageFilePath() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final filename = DateTime.now().millisecondsSinceEpoch.toString();
+    final newDirectory = '${directory.path}/uploads';
+    await Directory(newDirectory).create(recursive: true);
+    final imagePath = '$newDirectory$filename.jpg';
+    return imagePath;
   }
 
   //scan the image upload destination directory
@@ -116,12 +128,19 @@ class _UploadScreenState extends State<UploadScreen> {
     uploadedImageList.clear();
     final appDirectory = await getApplicationDocumentsDirectory();
     log(appDirectory.path);
-    final uplodDirectory = Directory('${appDirectory.path}/uploads');
+    final uplodDirectory = Directory('${appDirectory.path}');
     if (!uplodDirectory.existsSync()) return;
     final files = uplodDirectory.listSync();
-    final imageFiles = files.whereType<File>().toList();
-    setState(() {
-      uploadedImageList = imageFiles;
-    });
+
+    for (var i = 0; i < files.length; i++) {
+      if (files[i]
+              .path
+              .substring((files[i].path.length - 4), (files[i].path.length)) ==
+          '.jpg') {
+        setState(() {
+          uploadedImageList.add(File(files[i].path));
+        });
+      }
+    }
   }
 }
