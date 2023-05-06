@@ -36,8 +36,8 @@ class _UploadScreenState extends State<UploadScreen> {
                 children: [
                   mediaCard(size, 'Camera', Colors.blueAccent,
                       Icons.camera_alt_outlined, captureImage),
-                  mediaCard(size, 'File', Colors.purpleAccent,
-                      Icons.file_present_outlined, scanUploadDirectory),
+                  mediaCard(size, 'Scan', Colors.purpleAccent, Icons.image,
+                      scanUploadDirectory),
                 ],
               ),
               Column(
@@ -58,7 +58,7 @@ class _UploadScreenState extends State<UploadScreen> {
       color: color,
       child: GestureDetector(
         onTap: onTap,
-        child: Container(
+        child: SizedBox(
           height: size.height * 0.2,
           width: size.width * 0.4,
           child: Column(
